@@ -16,7 +16,7 @@
     :root{
       --bg:#1e1e1e; --bg2:#242424; --panel:#2a2a2a; --line:#3a3a3a; --muted:#bfbfbf; --text:#f1f1f1;
       --primary:#ff2e80; --primary-2:#e91e63; --blue:#6c8cff; --green:#00c896; --danger:#ff4d4f; --warning:#ffb020; --cyan:#2dd4bf;
-      --hue:170; /* ใช้โทนเดียวกับหน้าแรกสำหรับโหลดแบบ hourglass */
+      --hue:170;
     }
     html,body{ height:100% }
     body{
@@ -30,14 +30,12 @@
     .head{ display:flex; align-items:center; gap:.75rem; margin-bottom:.5rem }
     .head .you{ margin-left:auto; color:#9fe9d4; font-weight:600 }
 
-    /* tabs */
     .tabs{ display:flex; gap:.5rem; background:var(--bg2); border:1px solid var(--line); padding:.4rem; border-radius:14px; margin:0 0 1rem }
     .tabbtn{ flex:1; text-align:center; padding:.7rem 1rem; border-radius:10px; cursor:pointer; user-select:none; border:1px solid transparent; color:#ddd }
     .tabbtn.active{ background:var(--primary); color:#fff; font-weight:700; border-color:var(--primary) }
     .tabpanel{ display:none }
     .tabpanel.active{ display:block }
 
-    /* inputs / layout */
     .row{ display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1rem; align-items:flex-start }
     .col{ flex:1 1 46%; min-width:230px; display:flex; flex-direction:column; gap:.4rem }
     label{ color:var(--muted) }
@@ -54,34 +52,29 @@
     .card{ background:var(--bg2); border:1px solid var(--line); border-radius:18px; padding:1.25rem }
     .muted{ color:var(--muted) }
 
-    /* segmented range */
     .segbtn{ padding:.8rem 1.1rem; border-radius:12px; border:1px solid #444; background:#1f1f1f; color:#ddd; cursor:pointer; min-height:44px }
     .segbtn.active{ background:var(--primary); border-color:var(--primary); color:#fff; font-weight:700 }
     .badge{ padding:.25rem .5rem; border-radius:999px; font-size:.85rem }
     .badge-debt{ background:rgba(108,140,255,.16); color:#c8d2ff; border:1px solid rgba(108,140,255,.35) }
 
-    /* KPI */
     .kpi{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-bottom:1rem }
     .kpi .card{ display:flex; flex-direction:column; gap:.35rem; min-height:92px }
 
-    /* bars */
     .bar-track{ height:10px; background:#3a3a3a; border-radius:999px; overflow:hidden }
     .bar-fill{ height:100%; width:0% }
     #budgetBar{ background:linear-gradient(90deg,#6c8cff,#ffb020,#ff4d4f) }
     #savingBar{ background:linear-gradient(90deg,#2dd4bf,#00c896) }
 
-    /* charts */
     .grid2{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1rem }
-    .chart-wrap{ height:260px; width:100% } .chart-wrap canvas{ width:100% !important; height:100% !important; display:block }
+    .chart-wrap{ height:260px; width:100% }
+    .chart-wrap canvas{ width:100% !important; height:100% !important; display:block }
     @media(max-width:980px){ .chart-wrap{ height:220px } }
     @media(max-width:768px){ .chart-wrap{ height:200px } .col{ flex:1 1 100% } }
 
-    /* toast + overlay + skeleton */
     #toast{ position:fixed; left:50%; bottom:calc(22px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%);
       background:#333; color:#fff; padding:.75rem 1.2rem; border-radius:12px; opacity:0; transition:.35s; pointer-events:none; z-index:100 }
     .hide{ display:none }
 
-    /* Overlay */
     #overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.45); backdrop-filter:blur(2px); z-index:99; transition:.2s }
     #overlay.hide{ opacity:0; pointer-events:none }
 
@@ -251,11 +244,9 @@
       56%,to{ transform:scale(1,1) }
     }
 
-    /* skeleton for KPI */
     .skeleton{ position:relative; overflow:hidden; background:#2b2b2b; border-radius:8px; min-height:20px }
     .skeleton::after{ content:""; position:absolute; inset:0; transform:translateX(-100%); background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent); animation:skeleton 1.2s infinite }
 
-    /* 🔥 ตารางรายจ่ายตามหมวด ใต้กราฟ */
     #expTableWrap{ margin-top:.85rem; border:1px solid rgba(255,255,255,.03); border-radius:14px; overflow:hidden; background:rgba(0,0,0,.08) }
     .exp-table{ width:100%; border-collapse:collapse; font-size:.86rem }
     .exp-table thead{ background:rgba(255,255,255,.02); }
@@ -268,7 +259,6 @@
     }
   </style>
 
-  <!-- LIFF SDK -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
@@ -278,15 +268,12 @@
       <div class="you" id="who"></div>
     </div>
 
-    <!-- Tabs -->
     <div class="tabs" role="tablist" aria-label="Navigation">
       <button class="tabbtn active" id="tab-overview" role="tab" aria-selected="true" aria-controls="panel-overview">ภาพรวม</button>
       <button class="tabbtn" id="tab-budget" role="tab" aria-selected="false" aria-controls="panel-budget">งบ & เป้าออม</button>
     </div>
 
-    <!-- ========== OVERVIEW PANEL ========== -->
     <section id="panel-overview" class="tabpanel active" role="tabpanel" aria-labelledby="tab-overview">
-      <!-- ช่วงวันที่ + ปุ่มลัด -->
       <div class="card" style="margin-bottom:1rem">
         <div class="row">
           <div class="col"><label for="fFrom">จาก</label><input id="fFrom" type="date"></div>
@@ -306,7 +293,6 @@
         </div>
       </div>
 
-      <!-- KPI -->
       <div class="kpi" style="margin-bottom:1rem">
         <div class="card"><div class="muted">รายรับรวม (บาท)</div><div id="sumIncome"  style="font-size:1.6rem;font-weight:700" class="skeleton"></div></div>
         <div class="card"><div class="muted">รายจ่ายรวม (บาท)</div><div id="sumExpense" style="font-size:1.6rem;font-weight:700" class="skeleton"></div></div>
@@ -315,13 +301,11 @@
         <div class="card"><div class="muted">ยอดหนี้คงเหลือรวม (บาท)</div><div id="sumDebt"    style="font-size:1.6rem;font-weight:700" class="skeleton"></div></div>
       </div>
 
-      <!-- Charts -->
       <div class="grid2" style="margin-bottom:1rem">
         <div class="card">
           <div class="muted" style="margin-bottom:.5rem">รายจ่ายตามหมวด</div>
           <div id="noDataExp" class="muted hide">ยังไม่มีข้อมูลในช่วงนี้</div>
           <div class="chart-wrap observe"><canvas id="chartExp"></canvas></div>
-          <!-- ตารางสรุป -->
           <div id="expTableWrap" class="hide"></div>
         </div>
         <div class="card">
@@ -351,7 +335,6 @@
       </div>
     </section>
 
-    <!-- ========== BUDGET PANEL ========== -->
     <section id="panel-budget" class="tabpanel" role="tabpanel" aria-labelledby="tab-budget">
       <div class="card" style="margin-bottom:1rem">
         <div class="row">
@@ -394,9 +377,8 @@
 
   <div id="toast">แจ้งเตือน</div>
 
-  <!-- ✅ Overlay: loader นาฬิกาทรายตัวเต็ม -->
+  <!-- Overlay + Hourglass -->
   <div id="overlay" class="hide" aria-live="polite" aria-busy="true">
-    <!-- From Uiverse.io by nima-mollazadeh -->
     <svg aria-label="loader being flipped clockwise and circled by three white curves fading in and out"
       role="img" height="56" width="56" viewBox="0 0 56 56" class="loader">
       <clipPath id="sand-mound-top">
@@ -432,7 +414,7 @@
             <path d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
               stroke="hsl(0,0%,100%)" class="loader__glare-top"></path>
             <path transform="rotate(180,12.25,16.75)"
-              d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
+              d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5"
               stroke="hsla(0,0%,100%,0)" class="loader__glare-bottom"></path>
           </g>
 
@@ -446,24 +428,21 @@
   </div>
 
 <script>
-/** ====== CONFIG ====== */
 const LIFF_ID = '2008276151-D72EdA7d';
 const API_URL = 'https://script.google.com/macros/s/AKfycbxV3xOU1kQM86jUJtfer8hW_HgYkcLfpH942saPVbCZ1RDmN_4LYjpk72OxdKKLQAFt/exec';
 const BUD_CAT_OVERALL   = '__BUDGET_OVERALL__';
 const BUD_CAT_SAVE_GOAL = '__SAVING_GOAL__';
 
-/** ====== STATE ====== */
 let token = localStorage.getItem('fin_token') || '';
 let displayName = localStorage.getItem('fin_name') || '';
 let cats = { income:[], expense:[], saving:[] };
 let withdrawIncomeIds = new Set();
 const monthSettingsCache = {};
 let lastItems = [];
-let controller = null; // AbortController สำหรับยกเลิกรีเควสเก่า
-let charts = {};       // เก็บ instance ของกราฟ
-let visibleCanvases = new Set(); // lazy render
+let controller = null;
+let charts = {};
+let visibleCanvases = new Set();
 
-/** ====== HELPERS ====== */
 const $ = s => document.querySelector(s);
 const fmt = n => Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2, maximumFractionDigits:2});
 const toast = (msg, ok=true)=>{ const el=$('#toast'); el.textContent=msg; el.style.background = ok ? '#00c896' : '#ff4d4f'; el.style.opacity='1'; setTimeout(()=> el.style.opacity='0', 2400); };
@@ -481,7 +460,6 @@ function cacheGet(k){
 }
 function cacheSet(k, data, ttlMs){ localStorage.setItem(k, JSON.stringify({exp: Date.now()+ttlMs, data})); }
 
-/** ====== FETCH/API (พร้อม Abort + parallel) ====== */
 async function fetchJSON(url, options={}){
   try{
     const res=await fetch(url,{...options,headers:{'Content-Type':'text/plain;charset=utf-8',...(options.headers||{})}});
@@ -493,7 +471,6 @@ async function api(path, payload={}, useToken=true){
   return fetchJSON(API_URL, { method:'POST', body: JSON.stringify(body), signal: controller?.signal });
 }
 
-/** ====== LIFF LOGIN ====== */
 async function ensureTokenViaLIFF(){
   await liff.init({ liffId: LIFF_ID });
   if (!liff.isLoggedIn()){ liff.login({ redirectUri: location.href }); return false; }
@@ -512,7 +489,6 @@ async function ensureTokenViaLIFF(){
   return true;
 }
 
-/** ====== CATEGORIES (พร้อมแคช 1 วัน + parallel) ====== */
 function _isWithdrawIncomeName(name){ const s = String(name||''); return /ถอน.*ออม|ออม.*ถอน|ถอนออม|ถอนเงินออม|withdraw.*(save|saving)|saving.*withdraw/i.test(s); }
 async function loadCategoriesAll(){
   const cached = cacheGet('fin_cats_v2');
@@ -532,7 +508,6 @@ async function loadCategoriesAll(){
   withdrawIncomeIds = new Set((cats.income||[]).filter(c=> _isWithdrawIncomeName(c.name_th)).map(c=> c.category_id));
 }
 
-/** ====== BUDGET/GOAL SETTINGS ====== */
 function monthKeyFromRange(){ const f=$('#fFrom').value; if(!f) return todayISO().slice(0,7); return f.slice(0,7); }
 async function loadMonthSettings(mk){
   if (monthSettingsCache[mk]) return monthSettingsCache[mk];
@@ -556,7 +531,6 @@ async function saveMonthSettings(mk, budget, goal){
   toast('บันทึกงบ/เป้าออมไม่สำเร็จ', false); return false;
 }
 
-/** ====== RANGE SHORTCUTS ====== */
 function setRange(from, to, trigger=true){
   $('#fFrom').value = from; $('#fTo').value = to; updateRangeUI();
   if (trigger) refreshDash();
@@ -599,7 +573,6 @@ function updateRangeUI(){
   $('#rangeBadge').textContent = txt;
 }
 
-/** ====== KPI/Charts Utilities ====== */
 function setKpiLoading(on){
   ['sumIncome','sumExpense','sumSaving','sumNet','sumDebt'].forEach(id=>{
     const el=$('#'+id); if (on){ el.classList.add('skeleton'); el.textContent=''; } else { el.classList.remove('skeleton'); }
@@ -611,19 +584,16 @@ function ensureChart(id, cfg){
   else{ charts[id] = new Chart(document.getElementById(id), cfg); }
 }
 
-/** ====== DASH (เพิ่มแคชผลลัพธ์ + cancel previous) ====== */
 function sessionKey(from,to){ return `fin_dash_${from}_${to}`; }
 
 async function refreshDash(silent){
   if (!token){ if(!silent) toast('ยังไม่ได้รับสิทธิ์เข้าใช้งาน', false); return; }
 
-  // ยกเลิกคำขอเดิม
   if (controller) controller.abort();
   controller = new AbortController();
 
   setKpiLoading(true);
 
-  // แสดงจากแคชก่อน
   const from = $('#fFrom').value, to = $('#fTo').value;
   const sKey = sessionKey(from,to);
   const cached = sessionStorage.getItem(sKey);
@@ -631,10 +601,8 @@ async function refreshDash(silent){
     try{ const j = JSON.parse(cached); paintFromSummary(j); setKpiLoading(false); }catch{}
   }
 
-  // ดึงหมวดหมู่
   if (!cats.expense.length && !cats.income.length && !cats.saving.length){ await loadCategoriesAll(); }
 
-  // โหลดงบเดือน
   const mk = monthKeyFromRange(); loadMonthSettings(mk).catch(()=>{});
 
   try{
@@ -661,11 +629,9 @@ async function refreshDash(silent){
     paintFromSummary(summary);
     setKpiLoading(false);
 
-    // อัปเดตงบ
     const bMonth = $('#bMonth').value || mk;
     updateBudgetUI(exp, savNet, bMonth).catch(()=>{});
 
-    // วาดกราฟ
     queueLazyCharts(() => {
       drawExpByCat(lastItems, mapCat);
       drawFlow(lastItems);
@@ -691,7 +657,6 @@ function paintFromSummary(s){
   }
 }
 
-/** ====== Budget UI ====== */
 async function updateBudgetUI(expenseTotal, savingNet, monthKey){
   const cache = await loadMonthSettings(monthKey);
   const b = Number(cache.budget||0), g = Number(cache.goal||0);
@@ -722,7 +687,6 @@ async function updateBudgetUI(expenseTotal, savingNet, monthKey){
   $('#savingGoalStatus').textContent = sTxt;
 }
 
-/** ====== Charts (reuse instances) ====== */
 function drawExpByCat(items, mapCat){
   const panelNo = $('#noDataExp');
   const exps = items.filter(x=>x.type==='expense');
@@ -742,8 +706,6 @@ function drawExpByCat(items, mapCat){
     name,
     total: sum(arr, x=> x.amount)
   }));
-
-  // เรียงจากมากไปน้อย
   rows.sort((a,b) => b.total - a.total);
 
   const labels = rows.map(r=> r.name);
@@ -760,7 +722,6 @@ function drawExpByCat(items, mapCat){
     }
   });
 
-  // ตาราง
   const totalAll = rows.reduce((s,r)=> s+r.total, 0);
   let html = `
     <table class="exp-table">
@@ -833,7 +794,6 @@ function drawSavingCum(items){
   });
 }
 
-/** ====== Debt charts ====== */
 async function drawDebtNetTotalOverTime(from, to){
   const panelNo = $('#noDataDebtTS');
   const rActive = await api('debts/list', { include_closed:false }, true);
@@ -890,7 +850,6 @@ async function drawPrincipalInterestMonthly(from, to){
   });
 }
 
-/** ====== Lazy render ====== */
 function queueLazyCharts(cb){
   if (visibleCanvases.size >= document.querySelectorAll('.chart-wrap.observe canvas').length){
     cb(); return;
@@ -907,11 +866,9 @@ function queueLazyCharts(cb){
   document.querySelectorAll('.chart-wrap.observe canvas').forEach(cv => observer.observe(cv));
 }
 
-/** ====== EVENTS ====== */
 $('#fFrom').addEventListener('change', ()=>{ updateRangeUI(); refreshDash(); });
 $('#fTo').addEventListener('change', ()=>{ updateRangeUI(); refreshDash(); });
 
-// Tabs
 const tabOverview = $('#tab-overview');
 const tabBudget = $('#tab-budget');
 const panelOverview = $('#panel-overview');
@@ -935,16 +892,29 @@ function activateTab(which){
 tabOverview.addEventListener('click', ()=> activateTab('overview'));
 tabBudget.addEventListener('click', ()=> activateTab('budget'));
 
-// Budget: บันทึก
+// ✅ เพิ่ม loader ตอนบันทึกงบ/เป้าออม
 document.getElementById('btnSaveBudget').addEventListener('click', async ()=>{
+  const btn = document.getElementById('btnSaveBudget');
   const mk = $('#bMonth').value || monthKeyFromRange();
-  const ok = await saveMonthSettings(mk, $('#budgetThisMonth').value, $('#savingGoalThisMonth').value);
+  const budgetVal = $('#budgetThisMonth').value;
+  const savingVal = $('#savingGoalThisMonth').value;
+
+  showOverlay(true);
+  btn.disabled = true;
+  const prevText = btn.textContent;
+  btn.textContent = 'กำลังบันทึก...';
+
+  const ok = await saveMonthSettings(mk, budgetVal, savingVal);
+
+  showOverlay(false);
+  btn.disabled = false;
+  btn.textContent = prevText;
+
   if (ok){
     refreshDash(true);
   }
 });
 
-/** ====== INIT ====== */
 (async function init(){
   const mb = monthBounds(new Date()); $('#fFrom').value = mb.start; $('#fTo').value = mb.end; updateRangeUI();
   $('#bMonth').value = todayISO().slice(0,7);
@@ -959,29 +929,6 @@ document.getElementById('btnSaveBudget').addEventListener('click', async ()=>{
   }
   showOverlay(false);
 })();
-document.getElementById('btnSaveBudget').addEventListener('click', async () => {
-  const btn = document.getElementById('btnSaveBudget');
-  const mk = document.getElementById('bMonth').value || monthKeyFromRange();
-  const budgetVal = document.getElementById('budgetThisMonth').value;
-  const savingVal = document.getElementById('savingGoalThisMonth').value;
-
-  // ✅ แสดง Loader + กันกดซ้ำ
-  showOverlay(true);
-  btn.disabled = true;
-  btn.textContent = 'กำลังบันทึก...';
-
-  const ok = await saveMonthSettings(mk, budgetVal, savingVal);
-
-  // ✅ ปิด Loader + ปลดล็อกปุ่ม
-  showOverlay(false);
-  btn.disabled = false;
-  btn.textContent = 'บันทึกงบ/เป้าออม';
-
-  if (ok) {
-    // รีเฟรชแผงภาพรวมให้ตัวเลขตรง
-    refreshDash(true);
-  }
-});  
 </script>
 </body>
 </html>
