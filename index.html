@@ -8,7 +8,7 @@
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Chart.js (defer เพื่อลด blocking) -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
   <style>
@@ -16,7 +16,7 @@
     :root{
       --bg:#1e1e1e; --bg2:#242424; --panel:#2a2a2a; --line:#3a3a3a; --muted:#bfbfbf; --text:#f1f1f1;
       --primary:#ff2e80; --primary-2:#e91e63; --blue:#6c8cff; --green:#00c896; --danger:#ff4d4f; --warning:#ffb020; --cyan:#2dd4bf;
-      --hue:170;
+      --hue:170; /* ใช้โทนเดียวกับหน้าแรกสำหรับโหลดแบบ hourglass */
     }
     html,body{ height:100% }
     body{
@@ -85,7 +85,7 @@
     #overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.45); backdrop-filter:blur(2px); z-index:99; transition:.2s }
     #overlay.hide{ opacity:0; pointer-events:none }
 
-    /* ===== Loader ===== */
+    /* ===== Loader (Uiverse.io: nima-mollazadeh) — ตัวเต็ม ===== */
     .loader{ --dur:2s; display:block; margin:auto; width:14em; height:auto; }
     .loader__glare-top,
     .loader__glare-bottom,
@@ -105,8 +105,151 @@
       animation-timing-function:cubic-bezier(0.83,0,0.17,1);
       animation-iteration-count:infinite;
     }
-    @keyframes loader-flip{ from{ transform:translate(13.75px,9.25px) rotate(-180deg) } 24%,to{ transform:translate(13.75px,9.25px) rotate(0) } }
-    /* ... (ส่วน animation อื่น ๆ เหมือนเดิม ผมไม่ตัดออกนะ) ... */
+    .loader__glare-top{ animation-name:glare-top }
+    .loader__glare-bottom{ animation-name:glare-bottom }
+    .loader__model{ animation-name:loader-flip; transform-origin:12.25px 16.75px }
+    .loader__motion-thick,.loader__motion-medium,.loader__motion-thin{ transform-origin:26px 26px }
+    .loader__motion-thick{ animation-name:motion-thick }
+    .loader__motion-medium{ animation-name:motion-medium }
+    .loader__motion-thin{ animation-name:motion-thin }
+    .loader__sand-drop{ animation-name:sand-drop }
+    .loader__sand-fill{ animation-name:sand-fill }
+    .loader__sand-grain-left{ animation-name:sand-grain-left }
+    .loader__sand-grain-right{ animation-name:sand-grain-right }
+    .loader__sand-line-left{ animation-name:sand-line-left }
+    .loader__sand-line-right{ animation-name:sand-line-right }
+    .loader__sand-mound-top{ animation-name:sand-mound-top }
+    .loader__sand-mound-bottom{ animation-name:sand-mound-bottom; transform-origin:12.25px 31.5px }
+
+    @keyframes loader-flip{
+      from{ transform:translate(13.75px,9.25px) rotate(-180deg) }
+      24%,to{ transform:translate(13.75px,9.25px) rotate(0) }
+    }
+    @keyframes glare-top{
+      from{ stroke:rgba(255,255,255,0) }
+      24%,to{ stroke:white }
+    }
+    @keyframes glare-bottom{
+      from{ stroke:white }
+      24%,to{ stroke:rgba(255,255,255,0) }
+    }
+    @keyframes motion-thick{
+      from{
+        animation-timing-function:cubic-bezier(0.33,0,0.67,0);
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(0.67turn)
+      }
+      20%{
+        animation-timing-function:cubic-bezier(0.33,1,0.67,1);
+        stroke:rgb(32,32,32);
+        stroke-dashoffset:141.11;
+        transform:rotate(1turn)
+      }
+      40%,to{
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(1.33turn)
+      }
+    }
+    @keyframes motion-medium{
+      from,8%{
+        animation-timing-function:cubic-bezier(0.33,0,0.67,0);
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(0.5turn)
+      }
+      20%{
+        animation-timing-function:cubic-bezier(0.33,1,0.67,1);
+        stroke:white;
+        stroke-dashoffset:147.53;
+        transform:rotate(0.83turn)
+      }
+      32%,to{
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(1.17turn)
+      }
+    }
+    @keyframes motion-thin{
+      from,4%{
+        animation-timing-function:cubic-bezier(0.33,0,0.67,0);
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(0.33turn)
+      }
+      24%{
+        animation-timing-function:cubic-bezier(0.33,1,0.67,1);
+        stroke:rgb(53,53,53);
+        stroke-dashoffset:134.7;
+        transform:rotate(0.67turn)
+      }
+      44%,to{
+        stroke:rgba(255,255,255,0);
+        stroke-dashoffset:153.94;
+        transform:rotate(1turn)
+      }
+    }
+    @keyframes sand-drop{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:1
+      }
+      70%,to{ stroke-dashoffset:-107 }
+    }
+    @keyframes sand-fill{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:55
+      }
+      70%,to{ stroke-dashoffset:-54 }
+    }
+    @keyframes sand-grain-left{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:29
+      }
+      70%,to{ stroke-dashoffset:-22 }
+    }
+    @keyframes sand-grain-right{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:27
+      }
+      70%,to{ stroke-dashoffset:-24 }
+    }
+    @keyframes sand-line-left{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:53
+      }
+      70%,to{ stroke-dashoffset:-55 }
+    }
+    @keyframes sand-line-right{
+      from,10%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        stroke-dashoffset:14
+      }
+      70%,to{ stroke-dashoffset:-24.5 }
+    }
+    @keyframes sand-mound-top{
+      from,10%{
+        animation-timing-function:linear;
+        transform:translate(0,0)
+      }
+      15%{
+        animation-timing-function:cubic-bezier(0.12,0,0.39,0);
+        transform:translate(0,1.5px)
+      }
+      51%,to{ transform:translate(0,13px) }
+    }
+    @keyframes sand-mound-bottom{
+      from,31%{
+        animation-timing-function:cubic-bezier(0.61,1,0.88,1);
+        transform:scale(1,0)
+      }
+      56%,to{ transform:scale(1,1) }
+    }
 
     /* skeleton for KPI */
     .skeleton{ position:relative; overflow:hidden; background:#2b2b2b; border-radius:8px; min-height:20px }
@@ -178,7 +321,7 @@
           <div class="muted" style="margin-bottom:.5rem">รายจ่ายตามหมวด</div>
           <div id="noDataExp" class="muted hide">ยังไม่มีข้อมูลในช่วงนี้</div>
           <div class="chart-wrap observe"><canvas id="chartExp"></canvas></div>
-          <!-- ✅ ตารางสรุปใต้กราฟ -->
+          <!-- ตารางสรุป -->
           <div id="expTableWrap" class="hide"></div>
         </div>
         <div class="card">
@@ -251,11 +394,54 @@
 
   <div id="toast">แจ้งเตือน</div>
 
-  <!-- Overlay -->
+  <!-- ✅ Overlay: loader นาฬิกาทรายตัวเต็ม -->
   <div id="overlay" class="hide" aria-live="polite" aria-busy="true">
-    <!-- (loader เดิม) -->
-    <svg aria-label="loader..." role="img" height="56" width="56" viewBox="0 0 56 56" class="loader">
-      <!-- ... เหมือนเดิม ... -->
+    <!-- From Uiverse.io by nima-mollazadeh -->
+    <svg aria-label="loader being flipped clockwise and circled by three white curves fading in and out"
+      role="img" height="56" width="56" viewBox="0 0 56 56" class="loader">
+      <clipPath id="sand-mound-top">
+        <path d="M 14.613 13.087 C 15.814 12.059 19.3 8.039 20.3 6.539 C 21.5 4.789 21.5 2.039 21.5 2.039 L 3 2.039 C 3 2.039 3 4.789 4.2 6.539 C 5.2 8.039 8.686 12.059 9.887 13.087 C 11 14.039 12.25 14.039 12.25 14.039 C 12.25 14.039 13.5 14.039 14.613 13.087 Z" class="loader__sand-mound-top"></path>
+      </clipPath>
+      <clipPath id="sand-mound-bottom">
+        <path d="M 14.613 20.452 C 15.814 21.48 19.3 25.5 20.3 27 C 21.5 28.75 21.5 31.5 21.5 31.5 L 3 31.5 C 3 31.5 3 28.75 4.2 27 C 5.2 25.5 8.686 21.48 9.887 20.452 C 11 19.5 12.25 19.5 12.25 19.5 C 12.25 19.5 13.5 19.5 14.613 20.452 Z" class="loader__sand-mound-bottom"></path>
+      </clipPath>
+      <g transform="translate(2,2)">
+        <g transform="rotate(-90,26,26)" stroke-linecap="round" stroke-dashoffset="153.94" stroke-dasharray="153.94 153.94" stroke="hsl(0,0%,100%)" fill="none">
+          <circle transform="rotate(0,26,26)" r="24.5" cy="26" cx="26" stroke-width="2.5" class="loader__motion-thick"></circle>
+          <circle transform="rotate(90,26,26)" r="24.5" cy="26" cx="26" stroke-width="1.75" class="loader__motion-medium"></circle>
+          <circle transform="rotate(180,26,26)" r="24.5" cy="26" cx="26" stroke-width="1" class="loader__motion-thin"></circle>
+        </g>
+        <g transform="translate(13.75,9.25)" class="loader__model">
+          <path d="M 1.5 2 L 23 2 C 23 2 22.5 8.5 19 12 C 16 15.5 13.5 13.5 13.5 16.75 C 13.5 20 16 18 19 21.5 C 22.5 25 23 31.5 23 31.5 L 1.5 31.5 C 1.5 31.5 2 25 5.5 21.5 C 8.5 18 11 20 11 16.75 C 11 13.5 8.5 15.5 5.5 12 C 2 8.5 1.5 2 1.5 2 Z" fill="hsl(var(--hue),90%,85%)"></path>
+
+          <g stroke-linecap="round" stroke="hsl(35,90%,90%)">
+            <line y2="20.75" x2="12" y1="15.75" x1="12" stroke-dasharray="0.25 33.75" stroke-width="1" class="loader__sand-grain-left"></line>
+            <line y2="21.75" x2="12.5" y1="16.75" x1="12.5" stroke-dasharray="0.25 33.75" stroke-width="1" class="loader__sand-grain-right"></line>
+            <line y2="31.5" x2="12.25" y1="18" x1="12.25" stroke-dasharray="0.5 107.5" stroke-width="1" class="loader__sand-drop"></line>
+            <line y2="31.5" x2="12.25" y1="14.75" x1="12.25" stroke-dasharray="54 54" stroke-width="1.5" class="loader__sand-fill"></line>
+            <line y2="31.5" x2="12" y1="16" x1="12" stroke-dasharray="1 107" stroke-width="1" stroke="hsl(35,90%,83%)" class="loader__sand-line-left"></line>
+            <line y2="31.5" x2="12.5" y1="16" x1="12.5" stroke-dasharray="12 96" stroke-width="1" stroke="hsl(35,90%,83%)" class="loader__sand-line-right"></line>
+
+            <g stroke-width="0" fill="hsl(35,90%,90%)">
+              <path d="M 12.25 15 L 15.392 13.486 C 21.737 11.168 22.5 2 22.5 2 L 2 2.013 C 2 2.013 2.753 11.046 9.009 13.438 L 12.25 15 Z" clip-path="url(#sand-mound-top)"></path>
+              <path d="M 12.25 18.5 L 15.392 20.014 C 21.737 22.332 22.5 31.5 22.5 31.5 L 2 31.487 C 2 31.487 2.753 22.454 9.009 20.062 Z" clip-path="url(#sand-mound-bottom)"></path>
+            </g>
+          </g>
+
+          <g stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none">
+            <path d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
+              stroke="hsl(0,0%,100%)" class="loader__glare-top"></path>
+            <path transform="rotate(180,12.25,16.75)"
+              d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
+              stroke="hsla(0,0%,100%,0)" class="loader__glare-bottom"></path>
+          </g>
+
+          <rect height="2" width="24.5" fill="hsl(var(--hue),90%,50%)"></rect>
+          <rect height="1" width="19.5" y="0.5" x="2.5" ry="0.5" rx="0.5" fill="hsl(var(--hue),90%,57.5%)"></rect>
+          <rect height="2" width="24.5" y="31.5" fill="hsl(var(--hue),90%,50%)"></rect>
+          <rect height="1" width="19.5" y="32" x="2.5" ry="0.5" rx="0.5" fill="hsl(var(--hue),90%,57.5%)"></rect>
+        </g>
+      </g>
     </svg>
   </div>
 
@@ -273,10 +459,11 @@ let cats = { income:[], expense:[], saving:[] };
 let withdrawIncomeIds = new Set();
 const monthSettingsCache = {};
 let lastItems = [];
-let controller = null;
-let charts = {};
-let visibleCanvases = new Set();
+let controller = null; // AbortController สำหรับยกเลิกรีเควสเก่า
+let charts = {};       // เก็บ instance ของกราฟ
+let visibleCanvases = new Set(); // lazy render
 
+/** ====== HELPERS ====== */
 const $ = s => document.querySelector(s);
 const fmt = n => Number(n||0).toLocaleString('th-TH',{minimumFractionDigits:2, maximumFractionDigits:2});
 const toast = (msg, ok=true)=>{ const el=$('#toast'); el.textContent=msg; el.style.background = ok ? '#00c896' : '#ff4d4f'; el.style.opacity='1'; setTimeout(()=> el.style.opacity='0', 2400); };
@@ -294,7 +481,7 @@ function cacheGet(k){
 }
 function cacheSet(k, data, ttlMs){ localStorage.setItem(k, JSON.stringify({exp: Date.now()+ttlMs, data})); }
 
-/** ====== FETCH/API ====== */
+/** ====== FETCH/API (พร้อม Abort + parallel) ====== */
 async function fetchJSON(url, options={}){
   try{
     const res=await fetch(url,{...options,headers:{'Content-Type':'text/plain;charset=utf-8',...(options.headers||{})}});
@@ -325,7 +512,7 @@ async function ensureTokenViaLIFF(){
   return true;
 }
 
-/** ====== CATEGORIES ====== */
+/** ====== CATEGORIES (พร้อมแคช 1 วัน + parallel) ====== */
 function _isWithdrawIncomeName(name){ const s = String(name||''); return /ถอน.*ออม|ออม.*ถอน|ถอนออม|ถอนเงินออม|withdraw.*(save|saving)|saving.*withdraw/i.test(s); }
 async function loadCategoriesAll(){
   const cached = cacheGet('fin_cats_v2');
@@ -345,7 +532,7 @@ async function loadCategoriesAll(){
   withdrawIncomeIds = new Set((cats.income||[]).filter(c=> _isWithdrawIncomeName(c.name_th)).map(c=> c.category_id));
 }
 
-/** ====== BUDGET ====== */
+/** ====== BUDGET/GOAL SETTINGS ====== */
 function monthKeyFromRange(){ const f=$('#fFrom').value; if(!f) return todayISO().slice(0,7); return f.slice(0,7); }
 async function loadMonthSettings(mk){
   if (monthSettingsCache[mk]) return monthSettingsCache[mk];
@@ -412,7 +599,7 @@ function updateRangeUI(){
   $('#rangeBadge').textContent = txt;
 }
 
-/** ====== KPI UTIL ====== */
+/** ====== KPI/Charts Utilities ====== */
 function setKpiLoading(on){
   ['sumIncome','sumExpense','sumSaving','sumNet','sumDebt'].forEach(id=>{
     const el=$('#'+id); if (on){ el.classList.add('skeleton'); el.textContent=''; } else { el.classList.remove('skeleton'); }
@@ -424,17 +611,19 @@ function ensureChart(id, cfg){
   else{ charts[id] = new Chart(document.getElementById(id), cfg); }
 }
 
-/** ====== DASH ====== */
+/** ====== DASH (เพิ่มแคชผลลัพธ์ + cancel previous) ====== */
 function sessionKey(from,to){ return `fin_dash_${from}_${to}`; }
 
 async function refreshDash(silent){
   if (!token){ if(!silent) toast('ยังไม่ได้รับสิทธิ์เข้าใช้งาน', false); return; }
 
+  // ยกเลิกคำขอเดิม
   if (controller) controller.abort();
   controller = new AbortController();
 
   setKpiLoading(true);
 
+  // แสดงจากแคชก่อน
   const from = $('#fFrom').value, to = $('#fTo').value;
   const sKey = sessionKey(from,to);
   const cached = sessionStorage.getItem(sKey);
@@ -442,8 +631,10 @@ async function refreshDash(silent){
     try{ const j = JSON.parse(cached); paintFromSummary(j); setKpiLoading(false); }catch{}
   }
 
+  // ดึงหมวดหมู่
   if (!cats.expense.length && !cats.income.length && !cats.saving.length){ await loadCategoriesAll(); }
 
+  // โหลดงบเดือน
   const mk = monthKeyFromRange(); loadMonthSettings(mk).catch(()=>{});
 
   try{
@@ -470,9 +661,11 @@ async function refreshDash(silent){
     paintFromSummary(summary);
     setKpiLoading(false);
 
+    // อัปเดตงบ
     const bMonth = $('#bMonth').value || mk;
     updateBudgetUI(exp, savNet, bMonth).catch(()=>{});
 
+    // วาดกราฟ
     queueLazyCharts(() => {
       drawExpByCat(lastItems, mapCat);
       drawFlow(lastItems);
@@ -529,8 +722,7 @@ async function updateBudgetUI(expenseTotal, savingNet, monthKey){
   $('#savingGoalStatus').textContent = sTxt;
 }
 
-/** ====== Charts ====== */
-// ✅ ปรับฟังก์ชันนี้ให้ sort จากมากไปน้อย + สร้างตาราง
+/** ====== Charts (reuse instances) ====== */
 function drawExpByCat(items, mapCat){
   const panelNo = $('#noDataExp');
   const exps = items.filter(x=>x.type==='expense');
@@ -545,14 +737,13 @@ function drawExpByCat(items, mapCat){
   }
   panelNo.classList.add('hide');
 
-  // รวมตามหมวด
   const groupExp = groupBy(exps, x=> mapCat[x.category_id] || 'อื่น ๆ');
   let rows = Object.entries(groupExp).map(([name, arr]) => ({
     name,
     total: sum(arr, x=> x.amount)
   }));
 
-  // 🔥 sort จากมาก -> น้อย
+  // เรียงจากมากไปน้อย
   rows.sort((a,b) => b.total - a.total);
 
   const labels = rows.map(r=> r.name);
@@ -563,13 +754,13 @@ function drawExpByCat(items, mapCat){
     data:{ labels, datasets:[{ label:'จำนวน (บาท)', data, backgroundColor:'rgba(233,30,99,0.65)', borderColor:'rgba(233,30,99,1)', borderWidth:1 }] },
     options:{
       responsive:true, maintainAspectRatio:false, animation:false,
-      indexAxis:'y', /* ดูง่ายเมื่อเรียงมากไปน้อย */
+      indexAxis:'y',
       scales:{ x:{ beginAtZero:true } },
       plugins:{ legend:{ display:false } }
     }
   });
 
-  // ✅ สร้างตารางสรุป
+  // ตาราง
   const totalAll = rows.reduce((s,r)=> s+r.total, 0);
   let html = `
     <table class="exp-table">
@@ -622,7 +813,6 @@ function drawFlow(items){
     options:{ responsive:true, maintainAspectRatio:false, animation:false, interaction:{ mode:'index', intersect:false }, scales:{ y:{ beginAtZero:true } } }
   });
 }
-
 function drawSavingCum(items){
   const panelNo = $('#noDataSav');
   const byDateDep = groupBy(items.filter(x=>x.type==='saving'), x=> x.date);
@@ -643,6 +833,7 @@ function drawSavingCum(items){
   });
 }
 
+/** ====== Debt charts ====== */
 async function drawDebtNetTotalOverTime(from, to){
   const panelNo = $('#noDataDebtTS');
   const rActive = await api('debts/list', { include_closed:false }, true);
@@ -674,7 +865,6 @@ async function drawDebtNetTotalOverTime(from, to){
     options:{ responsive:true, maintainAspectRatio:false, animation:false, scales:{ y:{ beginAtZero:true } } }
   });
 }
-
 async function drawPrincipalInterestMonthly(from, to){
   const panelNo = $('#noDataPI');
   const r = await api('debts/tx/list', { from, to }, true);
@@ -745,6 +935,7 @@ function activateTab(which){
 tabOverview.addEventListener('click', ()=> activateTab('overview'));
 tabBudget.addEventListener('click', ()=> activateTab('budget'));
 
+// Budget: บันทึก
 document.getElementById('btnSaveBudget').addEventListener('click', async ()=>{
   const mk = $('#bMonth').value || monthKeyFromRange();
   const ok = await saveMonthSettings(mk, $('#budgetThisMonth').value, $('#savingGoalThisMonth').value);
