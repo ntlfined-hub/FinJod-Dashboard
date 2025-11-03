@@ -959,6 +959,29 @@ document.getElementById('btnSaveBudget').addEventListener('click', async ()=>{
   }
   showOverlay(false);
 })();
+document.getElementById('btnSaveBudget').addEventListener('click', async () => {
+  const btn = document.getElementById('btnSaveBudget');
+  const mk = document.getElementById('bMonth').value || monthKeyFromRange();
+  const budgetVal = document.getElementById('budgetThisMonth').value;
+  const savingVal = document.getElementById('savingGoalThisMonth').value;
+
+  // ✅ แสดง Loader + กันกดซ้ำ
+  showOverlay(true);
+  btn.disabled = true;
+  btn.textContent = 'กำลังบันทึก...';
+
+  const ok = await saveMonthSettings(mk, budgetVal, savingVal);
+
+  // ✅ ปิด Loader + ปลดล็อกปุ่ม
+  showOverlay(false);
+  btn.disabled = false;
+  btn.textContent = 'บันทึกงบ/เป้าออม';
+
+  if (ok) {
+    // รีเฟรชแผงภาพรวมให้ตัวเลขตรง
+    refreshDash(true);
+  }
+});  
 </script>
 </body>
 </html>
